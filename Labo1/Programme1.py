@@ -29,6 +29,7 @@ def dessiner_champ():
 
 def calculer_champ(x,y):
     k = 8.9876 * (10 ** 9)
+    somme_champ = [0,0]
 
     for objet in objects:
 
