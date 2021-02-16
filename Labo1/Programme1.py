@@ -6,6 +6,8 @@ import sys
 
 #Fonctions
 
+
+
 def ajouter_objet(x,y, q):
     objects.append((x,y,q))
 
