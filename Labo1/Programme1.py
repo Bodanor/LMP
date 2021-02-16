@@ -65,8 +65,13 @@ def calculer_champ(x,y):
                 else :
                     test = (40*(x - objet[0])/abs(x - objet[0]), 40 * (y - objet[1])/abs((y - objet[1])))
 
+    #if somme_champ != None:
+    return somme_champ
+            # if somme_champ[0] != 0 and somme_champ[1] != 0:
+            #     somme_champ[0] = 40 * somme_champ[0]/abs(somme_champ[0])
+            #     somme_champ[1] = 40 * somme_champ[1]/abs(somme_champ[1])
 
-    return test
+
 
 
 
@@ -88,6 +93,8 @@ def deplacer_pol(point, distance, orientation):
 
 
 def dessiner_vecteur(fenetre, couleur, origine, vecteur):
+
+
     if math.sqrt((vecteur[0]**2)+(vecteur[1]**2)) >= 0:
         p4 = (origine[0]+vecteur[0],origine[1]+vecteur[1])
         alpha = math.atan2(vecteur[1],vecteur[0])
