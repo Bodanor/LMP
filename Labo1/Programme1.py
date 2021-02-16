@@ -37,35 +37,18 @@ def calculer_champ(x,y):
             return None
 
         else:
-            norme = k*abs(objet[2])/ distance_objet**2
-            norme_prime = 40 * (norme / abs(norme))
+
+            composante_vecteur = [x - objet[0], y - objet[1]]
+
+            composante_vecteur[0] = composante_vecteur[0] * (k*objet[2])/ (distance_objet**3)
+            composante_vecteur[1] = composante_vecteur[1] * (k*objet[2])/ (distance_objet**3)
+
+            somme_champ[0] += composante_vecteur[0]
+            somme_champ[1] += composante_vecteur[1]
 
 
 
-            if objet[2] < 0:
-                if (objet[0] - x) == 0:
-                    test = [0, 0]
-                    test[0] = 0
-                    test[1] = 40 * (objet[1] - y)/abs((objet[1] - y))
-                elif (objet[1] - y) == 0:
-                    test = [0, 0]
-                    test[0] = 40 * (objet[0] - x)/abs(objet[0] - x)
-                    test[1] = 0
-                else :
-                    test = (40*(objet[0] - x)/abs(objet[0] - x), 40 * (objet[1] - y)/abs((objet[1] - y)))
-            else:
-                if (x - objet[0]) == 0:
-                    test = [0, 0]
-                    test[0] = 0
-                    test[1] = 40 * (y - objet[1])/abs((y - objet[1]))
-                elif (y - objet[1]) == 0:
-                    test = [0, 0]
-                    test[0] = 40*(x - objet[0])/abs(x - objet[0])
-                    test[1] = 0
-                else :
-                    test = (40*(x - objet[0])/abs(x - objet[0]), 40 * (y - objet[1])/abs((y - objet[1])))
 
-    #if somme_champ != None:
     return somme_champ
             # if somme_champ[0] != 0 and somme_champ[1] != 0:
             #     somme_champ[0] = 40 * somme_champ[0]/abs(somme_champ[0])
