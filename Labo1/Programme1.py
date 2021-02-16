@@ -22,8 +22,40 @@ def dessiner_champ():
     for x in range(-50, dimensions_fenetre[0] + 100, 50):
         for y in range(-50, dimensions_fenetre[1] + 100, 50):
             vecteur = calculer_champ(x,y)
+
             if vecteur != None:
-                dessiner_vecteur(fenetre,BLEU,(x,y),(vecteur[0],vecteur[1]))
+
+                norme = math.hypot(vecteur[0],vecteur[1])
+
+                if norme >= 10**(-10):
+                    if vecteur[0] == 0:
+                        var = [0,40*(vecteur[1])/norme]
+                    if vecteur[1] == 0:
+                        var = [40*(vecteur[0])/norme,0]
+                    else:
+                        var = [40*(vecteur[0])/norme,40*(vecteur[1])/norme]
+
+                    x1 = x - (var[0]/2)
+                    y1 = y - (var[1]/2)
+
+                    # v = math.sqrt(1000 * (vecteur[0]**2+vecteur[1]**2))
+                    # couleur = (0,0,0)
+                    # if v <= 8:
+                    #     toto = 255*v/8
+                    #     couleur = (255, toto, 0)
+                    # if v <= 16:
+                    #     toto = 255 * (v-8) / 8
+                    #     couleur = (255-toto, 255, toto)
+                    #
+                    # if v <= 24:
+                    #     toto = 255 * (v - 16) / 8
+                    #     couleur = (0 , 255-toto, 255)
+                    #
+                    # if v <= 32:
+                    #     toto = 255 * (v-24) / 8
+                    #     couleur = (toto, 0, 255)
+                    # print(v)
+                    dessiner_vecteur(fenetre,BLEU,(x1,y1),(var))
 
 
 
@@ -49,11 +81,13 @@ def calculer_champ(x,y):
 
 
 
+        # if somme_champ[0] != 0 and somme_champ[1] != 0:
+        #
+        #     somme_champ[0] = 40 * (somme_champ[0]/abs(somme_champ[0]))
+        #     somme_champ[1] = 40 * (somme_champ[1]/abs(somme_champ[1]))
 
-    return somme_champ
-            # if somme_champ[0] != 0 and somme_champ[1] != 0:
-            #     somme_champ[0] = 40 * somme_champ[0]/abs(somme_champ[0])
-            #     somme_champ[1] = 40 * somme_champ[1]/abs(somme_champ[1])
+    if somme_champ != None:
+        return somme_champ
 
 
 
