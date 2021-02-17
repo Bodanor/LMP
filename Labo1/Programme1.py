@@ -1,3 +1,8 @@
+#Samuel CHARMLIER
+#Maxime DERAVET
+#Christos Papadopoulos
+
+
 import math
 import pygame
 import sys
@@ -25,37 +30,43 @@ def dessiner_champ():
 
             if vecteur != None:
 
-                norme = math.hypot(vecteur[0],vecteur[1])
+                norme = math.sqrt(vecteur[0]**2+vecteur[1]**2)
 
                 if norme >= 10**(-10):
+                    composante = [0, 0]
+
                     if vecteur[0] == 0:
-                        var = [0,40*(vecteur[1])/norme]
-                    if vecteur[1] == 0:
-                        var = [40*(vecteur[0])/norme,0]
+                        composante = [0,40*(vecteur[1])/norme]
+                    elif vecteur[1] == 0:
+                        composante = [40*(vecteur[0])/norme,0]
                     else:
-                        var = [40*(vecteur[0])/norme,40*(vecteur[1])/norme]
+                        composante = [40*(vecteur[0])/norme,40*(vecteur[1])/norme]
 
-                    x1 = x - (var[0]/2)
-                    y1 = y - (var[1]/2)
+                    x1 = x - (composante[0]/2)
+                    y1 = y - (composante[1]/2)
 
-                    # v = math.sqrt(1000 * (vecteur[0]**2+vecteur[1]**2))
-                    # couleur = (0,0,0)
-                    # if v <= 8:
-                    #     toto = 255*v/8
-                    #     couleur = (255, toto, 0)
-                    # if v <= 16:
-                    #     toto = 255 * (v-8) / 8
-                    #     couleur = (255-toto, 255, toto)
-                    #
-                    # if v <= 24:
-                    #     toto = 255 * (v - 16) / 8
-                    #     couleur = (0 , 255-toto, 255)
-                    #
-                    # if v <= 32:
-                    #     toto = 255 * (v-24) / 8
-                    #     couleur = (toto, 0, 255)
-                    # print(v)
-                    dessiner_vecteur(fenetre,BLEU,(x1,y1),(var))
+
+
+
+
+                    v = math.sqrt(1000 * (abs(vecteur[0])+abs(vecteur[1])))
+                    couleur = (0,0,0)
+                    if v <= 8 and v>=0:
+                        couleur = (255, 255*v/8, 0)
+                    elif v <= 16 and v>8:
+                        toto = 255 * (v-8) / 8
+                        couleur = (255-toto, 255, toto)
+
+                    elif v <= 24 and v>16:
+                        toto = 255 * (v - 16) / 8
+                        couleur = (0 , 255-toto, 255)
+
+                    elif v <= 32 and v>24:
+                        toto = 255 * (v-24) / 8
+                        couleur = (toto, 0, 255)
+                    elif v>32:
+                        couleur = (255,0,255)
+                    dessiner_vecteur(fenetre,couleur,(x1,y1),composante)
 
 
 
@@ -80,24 +91,8 @@ def calculer_champ(x,y):
             somme_champ[1] += composante_vecteur[1]
 
 
-
-        # if somme_champ[0] != 0 and somme_champ[1] != 0:
-        #
-        #     somme_champ[0] = 40 * (somme_champ[0]/abs(somme_champ[0]))
-        #     somme_champ[1] = 40 * (somme_champ[1]/abs(somme_champ[1]))
-
-    if somme_champ != None:
+    if somme_champ != 0:
         return somme_champ
-
-
-
-
-
-# si q est négatif
-# (x - objet[0] ; y - objet[1])
-#
-# si q est positif
-# -(x - objet[0] ; y - objet[1])
 
 
 
@@ -171,7 +166,7 @@ fenetre.fill(couleur_fond)
 
 objects = []
 ajouter_objet(800, 200, 10**-6)
-ajouter_objet(800,700, -10**-6)
+ajouter_objet(800, 700, -10**-6)
 dessiner_objets()
 dessiner_champ()
 while True:
