@@ -1,15 +1,11 @@
-#Samuel CHARMLIER
+#Samuel CHARLIER
 #Maxime DERAVET
-#Christos Papadopoulos
+#Christos PAPADOPOULOS
 
 
 import math
 import pygame
 import sys
-
-
-
-#Fonctions
 
 
 
@@ -54,16 +50,16 @@ def dessiner_champ():
                     if v <= 8 and v>=0:
                         couleur = (255, 255*v/8, 0)
                     elif v <= 16 and v>8:
-                        toto = 255 * (v-8) / 8
-                        couleur = (255-toto, 255, toto)
+                        tmp = 255 * (v-8) / 8
+                        couleur = (255-tmp, 255, tmp)
 
                     elif v <= 24 and v>16:
-                        toto = 255 * (v - 16) / 8
-                        couleur = (0 , 255-toto, 255)
+                        tmp = 255 * (v - 16) / 8
+                        couleur = (0 , 255-tmp, 255)
 
                     elif v <= 32 and v>24:
-                        toto = 255 * (v-24) / 8
-                        couleur = (toto, 0, 255)
+                        tmp = 255 * (v-24) / 8
+                        couleur = (tmp, 0, 255)
                     elif v>32:
                         couleur = (255,0,255)
                     dessiner_vecteur(fenetre,couleur,(x1,y1),composante)
