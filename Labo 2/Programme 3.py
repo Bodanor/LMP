@@ -19,6 +19,12 @@ def retirer_objet(x,y):
 def ajouter_objet(x,y, q):
     objects.append((x,y,q))
 
+def calculer_energie_potentielle(x, y):
+    None
+    #Ici on aura les calculs par rapport au x, y.
+
+
+
 def dessiner_objets():
     for objet in objects:
         if objet[2] > 0:
@@ -93,17 +99,19 @@ def mettre_a_jour_mobile(t):
     global mobile_vy
 
     force = calculer_champ(mobile_x, mobile_y)
-
+    print(f"force : {force[0]} {force[1]}")
     if force != None:
         champX, champY = force[0], force[1]
 
         force_coulomb_X = mobile_charge * champX
         force_coulomb_Y = mobile_charge * champY
+        print(f"Force coulomb : {force_coulomb_X} {force_coulomb_Y}")
 
         masse = 10**-10
 
         acceleration_X = force_coulomb_X / masse
         acceleration_Y = force_coulomb_Y / masse
+        print(f"Acceleration : {acceleration_X} {acceleration_Y}")
 
         mobile_vx = mobile_vx + acceleration_X * t
         mobile_vy = mobile_vy + acceleration_Y * t
@@ -117,7 +125,6 @@ def mettre_a_jour_mobile(t):
         return (position_x,position_y)
     else:
         mobile_est_present = False
-
 
 
 
@@ -138,7 +145,7 @@ C = 20
 # Paramètres
 
 dimensions_fenetre = (1600, 900)  # en pixels
-images_par_seconde = 25
+images_par_seconde = 1
 
 # Initialisation
 
@@ -237,6 +244,6 @@ while True:
     dessiner_champ()
     pygame.display.flip()
     horloge.tick(images_par_seconde)
-    #t = (pygame.time.get_ticks() - temps_maintenant)
+
     t_secondes = temps_maintenant/1000
 
