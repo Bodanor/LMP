@@ -82,6 +82,40 @@ def calculer_champ(x,y):
 
 
 
+def dessiner_mobile(x,y,charge):
+    if charge >0:
+        pygame.draw.circle(fenetre, ROUGE, (x, y), 10, 4)
+    if charge <0:
+        pygame.draw.circle(fenetre, NOIR, (x, y), 10, 4)
+
+def mettre_a_jour_mobile(t):
+    force = calculer_champ(mobile_x, mobile_y)
+
+    if force != None:
+        champX, champY = force[0], force[1]
+
+
+
+
+        force_coulomb_X = mobile_charge * champX
+        force_coulomb_Y = mobile_charge * champY
+
+        masse = 10**-10
+
+        acceleration_X = force_coulomb_X/masse
+        acceleration_Y = force_coulomb_Y / masse
+
+        vitesse_x = acceleration_X * t
+        vitesse_y = acceleration_Y * t
+
+        position_x = mobile_x + (acceleration_X * t**2)/2
+        position_y = mobile_y + (acceleration_Y * t ** 2) / 2
+
+        print(position_x)
+
+        return (position_x,position_y)
+    else:
+        mobile_est_present = False
 
 
 
@@ -123,7 +157,21 @@ ajouter_objet(800, 200, 10**-6)
 ajouter_objet(800, 700, -10**-6)
 
 
+mobile_est_present = False
+mobile_x = 0
+mobile_y = 0
+mobile_vx = 0
+mobile_vy = 0
+position_mobile_x = 0
+position_mobile_y = 0
+mobile_charge = 0
+
+
+temps_precedent = pygame.time.get_ticks() - 10
+temps_maintenant = pygame.time.get_ticks()
+
 while True:
+    temps_maintenant = pygame.time.get_ticks()
     fenetre.fill(couleur_fond)
     for evenement in pygame.event.get():
         if evenement.type == pygame.QUIT:
@@ -138,13 +186,36 @@ while True:
                 ajouter_objet(pos[0], pos[1], 10**-7)
 
 
-            elif button == 3:
+            if button == 3:
                 ajouter_objet(pos[0], pos[1], -10**-7)
 
-            elif button == 2:
+            if button == 2:
                 retirer_objet(pos[0], pos[1])
 
+        elif evenement.type == pygame.KEYDOWN:
+            if evenement.key == pygame.K_p:
+                mobile_charge = 10**-7
+                x_souris, y_souris = pygame.mouse.get_pos()
+
+                mobile_x = x_souris
+                mobile_y = y_souris
+
+                mobile_vy = 0
+                mobile_vx = 0
+
+            if evenement.key == pygame.K_n:
+                mobile_charge = -(10**-7)
+                x_souris, y_souris = pygame.mouse.get_pos()
+
+                mobile_x = x_souris
+                mobile_y = y_souris
+
+                mobile_vy = 0
+                mobile_vx = 0
+
+    position_mobile_x, position_mobile_y = 0,0
     dessiner_objets()
+    dessiner_mobile(position_mobile_x,position_mobile_y,mobile_charge)
     dessiner_champ()
     pygame.display.flip()
     horloge.tick(images_par_seconde)
