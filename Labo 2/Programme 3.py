@@ -19,6 +19,12 @@ def retirer_objet(x,y):
 def ajouter_objet(x,y, q):
     objects.append((x,y,q))
 
+def calculer_energie_potentielle(x, y):
+    None
+    #Ici on aura les calculs par rapport au x, y.
+
+
+
 def dessiner_objets():
     for objet in objects:
         if objet[2] > 0:
@@ -122,7 +128,6 @@ def mettre_a_jour_mobile(t):
 
 
 
-
 # Constantes
 
 BLEUCLAIR = (127, 191, 255)
@@ -219,3 +224,8 @@ while True:
     dessiner_champ()
     pygame.display.flip()
     horloge.tick(images_par_seconde)
+    #t = (pygame.time.get_ticks() - temps_maintenant)
+    t_secondes = temps_maintenant/1000
+    position = mettre_a_jour_mobile(t_secondes)
+    if position != None:
+        position_mobile_x, position_mobile_y = position[0], position[1]
