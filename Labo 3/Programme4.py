@@ -78,7 +78,28 @@ def dessiner_afficheur(sortie_CD4511):
 
 def composant_CD4511(entree):
 
-    return np.array([0, 0, 0, 0, 0, 0, 0])
+    decimal = 0
+    power = 0
+    for i in range(len(entree)-1 ,-1, -1):
+        decimal += entree[i]*2**power
+        power+=1
+    decimal = int(decimal)
+
+
+
+
+
+
+
+    tdv = np.array([[1, 1, 1, 1, 1, 1, 0], [0, 1, 1, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 1],
+                   [1, 1, 1, 1, 0, 0, 1], [0, 1, 1, 0, 0, 1, 1], [1, 0, 1, 1, 0, 1, 1],
+                   [1, 0, 1, 1, 1, 1, 1], [1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1],
+                   [1, 1, 1, 1, 0, 1, 1]])
+
+
+    return tdv[decimal]
+
+
 
 def sortie_memorisee():
 
@@ -102,6 +123,7 @@ def gerer_click():
 
 def connexion_bouton(sortie_bouton):
     return
+
 
 ### Paramètre(s)
 
@@ -163,3 +185,11 @@ while True:
 
     pygame.display.flip()
     horloge.tick(images_par_seconde)
+
+
+
+
+
+
+
+
