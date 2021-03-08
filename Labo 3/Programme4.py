@@ -164,7 +164,7 @@ image_bouton = pygame.image.load('images/bouton.png').convert_alpha(fenetre)
 couleur_fond = GRIS
 
 #Variables
-valeur_memorisee = 7
+valeur_memorisee = 10
 sortie_memorisee()
 
 # Boucle principale
