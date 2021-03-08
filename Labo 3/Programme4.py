@@ -87,10 +87,6 @@ def composant_CD4511(entree):
 
 
 
-
-
-
-
     tdv = np.array([[1, 1, 1, 1, 1, 1, 0], [0, 1, 1, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 1],
                    [1, 1, 1, 1, 0, 0, 1], [0, 1, 1, 0, 0, 1, 1], [1, 0, 1, 1, 0, 1, 1],
                    [1, 0, 1, 1, 1, 1, 1], [1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1],
@@ -164,13 +160,14 @@ image_bouton = pygame.image.load('images/bouton.png').convert_alpha(fenetre)
 couleur_fond = GRIS
 
 #Variables
-valeur_memorisee = 10
+valeur_memorisee = 0
 sortie_memorisee()
 
 # Boucle principale
 
 
 while True:
+    sortie_bouton = 0
     temps_maintenant = pygame.time.get_ticks()
     for evenement in pygame.event.get():
         if evenement.type == pygame.QUIT:
