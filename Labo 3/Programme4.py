@@ -150,6 +150,7 @@ pygame.init()
 fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 7 segments")
 
+pygame.time.set_timer(pygame.USEREVENT, 500)
 horloge = pygame.time.Clock()
 
 image_afficheur_s = pygame.image.load('images/7_seg_s.png').convert_alpha(fenetre)
@@ -172,6 +173,7 @@ sortie_memorisee()
 
 
 while True:
+    sig_horloge = 0
     sortie_bouton = 0
     temps_maintenant = pygame.time.get_ticks()
     for evenement in pygame.event.get():
@@ -193,6 +195,15 @@ while True:
 
     sortie_CD4511 = composant_CD4511(sortie_memorisee())
     dessiner_afficheur(sortie_CD4511)
+    if sortie_bouton == 1:
+        valeur_memorisee +=1
+    if sig_horloge == 1:
+        valeur_memorisee +=1
+        pygame.draw.circle(fenetre, ROUGE, pos_afficheur, 10)
+    else:
+        pygame.draw.circle(fenetre, NOIR, pos_afficheur, 10)
+    if valeur_memorisee ==10:
+        valeur_memorisee = 0
     dessiner_arduino(sortie_memorisee(), sortie_CD4511, sortie_bouton)
 
     pygame.display.flip()
