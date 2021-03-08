@@ -185,10 +185,10 @@ while True:
                 if mouse_y < pos_centre_bouton[1] + rayon_bouton and mouse_y > pos_centre_bouton[1] - rayon_bouton:
                     sortie_bouton = 1
 
-    if sortie_bouton == 1:
-        valeur_memorisee +=1
-    if sortie_bouton == 1 and valeur_memorisee ==10:
-        valeur_memorisee = 0
+        if evenement.type == pygame.USEREVENT:
+            sig_horloge = 1
+
+
     fenetre.fill(couleur_fond)
 
     sortie_CD4511 = composant_CD4511(sortie_memorisee())
