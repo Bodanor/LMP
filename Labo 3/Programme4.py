@@ -118,6 +118,11 @@ def gerer_click():
 
 
 def connexion_bouton(sortie_bouton):
+    if sortie_bouton == 1:
+        pygame.draw.line(fenetre, ROUGE, pin_arduino, pin_bouton, 5)
+
+    else:
+        pygame.draw.line(fenetre, NOIR, pin_arduino, pin_bouton, 5)
     return
 
 
@@ -173,7 +178,17 @@ while True:
         if evenement.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-    sortie_bouton = 0
+
+        if evenement.type == pygame.MOUSEBUTTONUP:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if mouse_x<pos_centre_bouton[0] + rayon_bouton and mouse_x > pos_centre_bouton[0] - rayon_bouton:
+                if mouse_y < pos_centre_bouton[1] + rayon_bouton and mouse_y > pos_centre_bouton[1] - rayon_bouton:
+                    sortie_bouton = 1
+
+    if sortie_bouton == 1:
+        valeur_memorisee +=1
+    if sortie_bouton == 1 and valeur_memorisee ==10:
+        valeur_memorisee = 0
     fenetre.fill(couleur_fond)
 
     sortie_CD4511 = composant_CD4511(sortie_memorisee())
@@ -182,11 +197,3 @@ while True:
 
     pygame.display.flip()
     horloge.tick(images_par_seconde)
-
-
-
-
-
-
-
-
