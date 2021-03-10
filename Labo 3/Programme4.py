@@ -202,7 +202,7 @@ while True:
         pygame.draw.circle(fenetre, ROUGE, pos_afficheur, 10)
     else:
         pygame.draw.circle(fenetre, NOIR, pos_afficheur, 10)
-    if valeur_memorisee ==10:
+    if valeur_memorisee >=10:
         valeur_memorisee = 0
     dessiner_arduino(sortie_memorisee(), sortie_CD4511, sortie_bouton)
 
