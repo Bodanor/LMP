@@ -237,7 +237,7 @@ while True:
     fenetre.fill(couleur_fond)
 
     sortie_CD4511 = composant_CD4511(sortie_memorisee())
-    dessiner_afficheur(np.zeros(7, dtype=int), np.zeros(6, dtype=int))
+
     if sortie_bouton == 1:
         valeur_memorisee +=1
     if sig_horloge == 1:
@@ -249,6 +249,6 @@ while True:
         valeur_memorisee = 0
     dessiner_arduino(np.zeros(8, dtype=int), np.zeros(7, dtype=int),
                      np.zeros(6, dtype=int), 0)
-
+    dessiner_afficheur(np.zeros(7, dtype=int), np.zeros(6, dtype=int))
     pygame.display.flip()
     horloge.tick(images_par_seconde)
