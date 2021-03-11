@@ -94,38 +94,38 @@ def dessiner_mobile(x,y,charge):
     if charge <0:
         pygame.draw.circle(fenetre, NOIR, (x, y), 10, 4)
 
-def mettre_a_jour_mobile(t):
-    global mobile_vx
-    global mobile_vy
-
-    force = calculer_champ(mobile_x, mobile_y)
-    print(f"force : {force[0]} {force[1]}")
-    if force != None:
-        champX, champY = force[0], force[1]
-
-        force_coulomb_X = mobile_charge * champX
-        force_coulomb_Y = mobile_charge * champY
-        print(f"Force coulomb : {force_coulomb_X} {force_coulomb_Y}")
-
-        masse = 10**-10
-
-        acceleration_X = force_coulomb_X / masse
-        acceleration_Y = force_coulomb_Y / masse
-        print(f"Acceleration : {acceleration_X} {acceleration_Y}")
-
-        mobile_vx = mobile_vx + acceleration_X * t
-        mobile_vy = mobile_vy + acceleration_Y * t
-        print(f"Vitesse mobile : {mobile_vx} {mobile_vy}")
-
-        position_x = mobile_x + mobile_vx * t + (acceleration_X * t **2)/2
-        position_y = mobile_y + mobile_vy * t + (acceleration_Y * t ** 2) / 2
-        print(f"posotions : {position_x} {position_y}")
-        print("---------FIN de boucle !---------")
-
-        return (position_x,position_y)
-    else:
-        mobile_est_present = False
-
+# def mettre_a_jour_mobile(t):
+#     global mobile_vx
+#     global mobile_vy
+#
+#     force = calculer_champ(mobile_x, mobile_y)
+#     print(f"force : {force[0]} {force[1]}")
+#     if force != None:
+#         champX, champY = force[0], force[1]
+#
+#         force_coulomb_X = mobile_charge * champX
+#         force_coulomb_Y = mobile_charge * champY
+#         print(f"Force coulomb : {force_coulomb_X} {force_coulomb_Y}")
+#
+#         masse = 10**-10
+#
+#         acceleration_X = force_coulomb_X / masse
+#         acceleration_Y = force_coulomb_Y / masse
+#         print(f"Acceleration : {acceleration_X} {acceleration_Y}")
+#
+#         mobile_vx = mobile_vx + acceleration_X * t
+#         mobile_vy = mobile_vy + acceleration_Y * t
+#         print(f"Vitesse mobile : {mobile_vx} {mobile_vy}")
+#
+#         position_x = mobile_x + mobile_vx * t + (acceleration_X * t **2)/2
+#         position_y = mobile_y + mobile_vy * t + (acceleration_Y * t ** 2) / 2
+#         print(f"posotions : {position_x} {position_y}")
+#         print("---------FIN de boucle !---------")
+#
+#         return (position_x,position_y)
+#     else:
+#         mobile_est_present = False
+#
 
 
 
@@ -145,7 +145,7 @@ C = 20
 # Paramètres
 
 dimensions_fenetre = (1600, 900)  # en pixels
-images_par_seconde = 1
+images_par_seconde = 25
 
 # Initialisation
 
@@ -228,20 +228,21 @@ while True:
 
                 mobile_est_present = True
 
-    while temps_precedent < temps_maintenant:
-        t_secondes = temps_precedent / 1000
-        if mobile_est_present:
-            position = mettre_a_jour_mobile(t_secondes)
-            if position != None:
+    # while temps_precedent < temps_maintenant:
+    #     t_secondes = temps_precedent / 1000
+    #     if mobile_est_present:
+    #         position = mettre_a_jour_mobile(t_secondes)
+    #         if position != None:
+    #
+    #             mobile_x, mobile_y = position[0], position[1]
 
-                mobile_x, mobile_y = position[0], position[1]
-            dessiner_mobile(mobile_x,mobile_y,mobile_charge)
 
             #dessiner_tableau()
         temps_precedent += 1
 
     dessiner_objets()
     dessiner_champ()
+    dessiner_mobile(mobile_x, mobile_y, mobile_charge)
     pygame.display.flip()
     horloge.tick(images_par_seconde)
 
