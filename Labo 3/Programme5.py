@@ -6,6 +6,10 @@
 #
 # ------------------------------------------------------------------------
 
+#Samuel CHARLIER
+#Maxime DERAVET
+#Christos PAPADOPOULOS
+
 import math
 import pygame
 import sys
