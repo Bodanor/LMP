@@ -122,7 +122,7 @@ def composant_CD4511(entree):
 
     decimal = 0
     power = 0
-    for i in range(len(entree)-1 ,-1, -1):
+    for i in range(len(entree)-5 ,-1, -1):
         decimal += entree[i]*2**power
         power+=1
     decimal = int(decimal)
@@ -136,6 +136,19 @@ def composant_CD4511(entree):
 
 
     return tdv[decimal]
+
+def composant_CD4028(entree):
+
+    decimal = 0
+    power = 0
+    for i in range(len(entree) - 1, 4, -1):
+        decimal += entree[i] * 2 ** power
+        power += 1
+    decimal = int(decimal)
+    afficheur_allume = [0,0,0,0,0,0]
+    afficheur_allume[decimal-1]=1
+
+    return afficheur_allume
 
 
 
@@ -226,6 +239,7 @@ valeur_memorisee = 0
 num_afficheur = 7
 sortie_memorisee()
 
+
 # Boucle principale
 
 
@@ -254,11 +268,10 @@ while True:
 
     if sortie_bouton == 1:
         valeur_memorisee +=1
+
     if sig_horloge == 1:
         valeur_memorisee +=1
-        pygame.draw.circle(fenetre, ROUGE, pos_afficheur, 10)
-    else:
-        pygame.draw.circle(fenetre, NOIR, pos_afficheur, 10)
+
     if valeur_memorisee >=10:
         valeur_memorisee = 0
     #dessiner_arduino(np.zeros(8, dtype=int), np.zeros(7, dtype=int),
