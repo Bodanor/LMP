@@ -142,7 +142,8 @@ def composant_CD4511(entree):
 def sortie_memorisee():
 
     size_array = 4
-    arr = np.zeros(size_array)
+    arr_bin = np.zeros(size_array)
+    arr_num = np.zeros(size_array)
     global valeur_memorisee
     global num_afficheur
 
@@ -151,7 +152,7 @@ def sortie_memorisee():
 
     while valeur_temp !=0: #Transformation en binbaire du nombre à afficher
         reste = valeur_temp %2
-        arr[size_array-1] = reste
+        arr_bin[size_array-1] = reste
         valeur_temp = valeur_temp//2
         size_array -= 1
 
@@ -222,6 +223,7 @@ couleur_fond = GRIS
 
 #Variables
 valeur_memorisee = 0
+num_afficheur = 7
 sortie_memorisee()
 
 # Boucle principale
@@ -259,8 +261,8 @@ while True:
         pygame.draw.circle(fenetre, NOIR, pos_afficheur, 10)
     if valeur_memorisee >=10:
         valeur_memorisee = 0
-    dessiner_arduino(np.zeros(8, dtype=int), np.zeros(7, dtype=int),
-                     np.zeros(6, dtype=int), 0)
+    #dessiner_arduino(np.zeros(8, dtype=int), np.zeros(7, dtype=int),
+      #               np.zeros(6, dtype=int), 0)
     dessiner_afficheur(np.zeros(7, dtype=int), np.zeros(6, dtype=int))
     pygame.display.flip()
     horloge.tick(images_par_seconde)
