@@ -144,14 +144,26 @@ def sortie_memorisee():
     size_array = 4
     arr = np.zeros(size_array)
     global valeur_memorisee
+    global num_afficheur
 
     valeur_temp = valeur_memorisee
+    temp_afficheur = num_afficheur
 
-    while valeur_temp !=0:
+    while valeur_temp !=0: #Transformation en binbaire du nombre à afficher
         reste = valeur_temp %2
         arr[size_array-1] = reste
         valeur_temp = valeur_temp//2
         size_array -= 1
+
+    size_array = 4
+
+    while temp_afficheur !=0: #Transformation en binaire du numéro de l'afficheur
+        reste = temp_afficheur %2
+        arr_num[size_array-1] = reste
+        temp_afficheur = temp_afficheur//2
+        size_array -= 1
+
+    arr = np.append(arr_bin, arr_num)
 
     return arr
 
