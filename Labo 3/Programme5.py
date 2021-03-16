@@ -98,6 +98,9 @@ def dessiner_arduino(sortie_arduino, sortie_CD4511, sortie_CD4028, sortie_bouton
 
 
 def dessiner_afficheur(sortie_CD4511, sortie_CD4028):
+
+    global latence_mat
+
     positions_barres = [[32, 14], [89, 20], [87, 88], [28, 150],
                         [17, 88], [19, 20], [30, 82]]
 
@@ -240,9 +243,11 @@ couleur_fond = GRIS
 valeur_memorisee = 7
 num_afficheur = 1
 sortie_memorisee()
+latence_mat = np.array([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
 
 
 # Boucle principale
+
 
 
 while True:
