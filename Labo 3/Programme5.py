@@ -14,6 +14,8 @@ import math
 import pygame
 import sys
 import numpy as np
+import datetime as dt
+
 
 ### Constante(s)
 
@@ -240,7 +242,7 @@ image_bouton = pygame.image.load('images/bouton.png').convert_alpha(fenetre)
 couleur_fond = GRIS
 
 #Variables
-valeur_memorisee = 7
+valeur_memorisee = 0
 num_afficheur = 1
 sortie_memorisee()
 latence_mat = np.array([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
@@ -249,8 +251,35 @@ latence_mat = np.array([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0
 # Boucle principale
 
 
+
 while True:
     try:
+        heure_total = []
+        heure = dt.datetime.now().hour
+        minute = dt.datetime.now().minute
+        secondes = dt.datetime.now().second
+
+        heure_str = (f"{heure}{minute}{secondes}")
+        for i in heure_str:
+            heure_total.append(int(i))
+
+
+
+        if heure < 10:
+            heure_total.insert(1,heure_total[0])
+            heure_total[0] = 0
+
+        if minute <10:
+            heure_total.insert(3, heure_total[2])
+            heure_total[2] = 0
+
+        if secondes <10:
+            heure_total.insert(5, heure_total[4])
+            heure_total[4] = 0
+
+
+
+
         sig_horloge = 0
         sortie_bouton = 0
         temps_maintenant = pygame.time.get_ticks()
@@ -269,9 +298,12 @@ while True:
                 sig_horloge = 1
 
             if evenement.type == pygame.USEREVENT+1:
+                None
 
-                latence_mat[num_afficheur-1] = composant_CD4511(sortie_memorisee())
-                num_afficheur += 1
+        for l in heure_total:
+            valeur_memorisee = int(l)
+            latence_mat[num_afficheur - 1] = composant_CD4511(sortie_memorisee())
+            num_afficheur += 1
 
 
         fenetre.fill(couleur_fond)
@@ -280,8 +312,6 @@ while True:
 
 
 
-        if valeur_memorisee >=10:
-            valeur_memorisee = 0
 
         if num_afficheur>6:
             num_afficheur =1
