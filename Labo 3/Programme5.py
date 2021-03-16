@@ -249,7 +249,6 @@ latence_mat = np.array([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0
 # Boucle principale
 
 
-
 while True:
     try:
         sig_horloge = 0
@@ -279,11 +278,7 @@ while True:
 
         sortie_CD4511 = composant_CD4511(sortie_memorisee())
 
-        if sortie_bouton == 1:
-            valeur_memorisee +=1
 
-        if sig_horloge == 1:
-           valeur_memorisee +=1
 
         if valeur_memorisee >=10:
             valeur_memorisee = 0
