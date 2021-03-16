@@ -101,21 +101,23 @@ def dessiner_afficheur(sortie_CD4511, sortie_CD4028):
     positions_barres = [[32, 14], [89, 20], [87, 88], [28, 150],
                         [17, 88], [19, 20], [30, 82]]
 
+
+
     for j in range(0, 6):
         fenetre.blit(image_afficheur_s, (pos_afficheur[0] + j*101, pos_afficheur[1]))
-        if sortie_CD4028[j] == 1:
-            i = 0
-            for barre in positions_barres:
-                if sortie_CD4511[i] == 0:
-                    i = i + 1
-                    continue
-                x_b = j*101 + pos_afficheur[0] + int(round(barre[0]*(image_afficheur_s.get_width()/133)))
-                y_b = pos_afficheur[1] + int(round(barre[1]*(image_afficheur_s.get_height()/192)))
-                if i == 0 or i == 3 or i == 6:
-                    fenetre.blit(barre_horizontale_s, (x_b, y_b))
-                else:
-                    fenetre.blit(barre_verticale_s, (x_b, y_b))
+
+        i = 0
+        for barre in positions_barres:
+            if latence_mat[j][i] == 0:
                 i = i + 1
+                continue
+            x_b = j*101 + pos_afficheur[0] + int(round(barre[0]*(image_afficheur_s.get_width()/133)))
+            y_b = pos_afficheur[1] + int(round(barre[1]*(image_afficheur_s.get_height()/192)))
+            if i == 0 or i == 3 or i == 6:
+                fenetre.blit(barre_horizontale_s, (x_b, y_b))
+            else:
+                fenetre.blit(barre_verticale_s, (x_b, y_b))
+            i = i + 1
     return
 
 def composant_CD4511(entree):
@@ -244,46 +246,53 @@ sortie_memorisee()
 
 
 while True:
-    sig_horloge = 0
-    sortie_bouton = 0
-    temps_maintenant = pygame.time.get_ticks()
-    for evenement in pygame.event.get():
-        if evenement.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+    try:
+        sig_horloge = 0
+        sortie_bouton = 0
+        temps_maintenant = pygame.time.get_ticks()
+        for evenement in pygame.event.get():
+            if evenement.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-        if evenement.type == pygame.MOUSEBUTTONUP:
-            mouse_x, mouse_y = pygame.mouse.get_pos()
-            if mouse_x<pos_centre_bouton[0] + rayon_bouton and mouse_x > pos_centre_bouton[0] - rayon_bouton:
-                if mouse_y < pos_centre_bouton[1] + rayon_bouton and mouse_y > pos_centre_bouton[1] - rayon_bouton:
-                    sortie_bouton = 1
+            if evenement.type == pygame.MOUSEBUTTONUP:
+                mouse_x, mouse_y = pygame.mouse.get_pos()
+                if mouse_x<pos_centre_bouton[0] + rayon_bouton and mouse_x > pos_centre_bouton[0] - rayon_bouton:
+                    if mouse_y < pos_centre_bouton[1] + rayon_bouton and mouse_y > pos_centre_bouton[1] - rayon_bouton:
+                        sortie_bouton = 1
 
-        if evenement.type == pygame.USEREVENT:
-            sig_horloge = 1
+            if evenement.type == pygame.USEREVENT:
+                sig_horloge = 1
 
-        if evenement.type == pygame.USEREVENT+1:
-            num_afficheur +=1
+            if evenement.type == pygame.USEREVENT+1:
+
+                latence_mat[num_afficheur-1] = composant_CD4511(sortie_memorisee())
+                num_afficheur += 1
 
 
-    fenetre.fill(couleur_fond)
+        fenetre.fill(couleur_fond)
 
-    sortie_CD4511 = composant_CD4511(sortie_memorisee())
+        sortie_CD4511 = composant_CD4511(sortie_memorisee())
 
-    if sortie_bouton == 1:
-        valeur_memorisee +=1
+        if sortie_bouton == 1:
+            valeur_memorisee +=1
 
-    if sig_horloge == 1:
-        valeur_memorisee +=1
+        if sig_horloge == 1:
+           valeur_memorisee +=1
 
-    if valeur_memorisee >=10:
-        valeur_memorisee = 0
+        if valeur_memorisee >=10:
+            valeur_memorisee = 0
 
-    if num_afficheur>6:
-        num_afficheur =1
+        if num_afficheur>6:
+            num_afficheur =1
 
-    afficheur_allume = (composant_CD4028(sortie_memorisee()))
-    dessiner_arduino(sortie_memorisee(), sortie_CD4511,
-                    afficheur_allume, sortie_bouton)
-    dessiner_afficheur(sortie_CD4511, afficheur_allume)
-    pygame.display.flip()
-    horloge.tick(images_par_seconde)
+        afficheur_allume = (composant_CD4028(sortie_memorisee()))
+        dessiner_arduino(sortie_memorisee(), sortie_CD4511,
+                        afficheur_allume, sortie_bouton)
+
+        dessiner_afficheur(sortie_CD4511, afficheur_allume)
+        pygame.display.flip()
+        horloge.tick(images_par_seconde)
+
+    except IndexError:
+        pass
