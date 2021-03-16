@@ -128,7 +128,6 @@ def composant_CD4511(entree):
     decimal = int(decimal)
 
 
-
     tdv = np.array([[1, 1, 1, 1, 1, 1, 0], [0, 1, 1, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 1],
                    [1, 1, 1, 1, 0, 0, 1], [0, 1, 1, 0, 0, 1, 1], [1, 0, 1, 1, 0, 1, 1],
                    [1, 0, 1, 1, 1, 1, 1], [1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1],
@@ -220,6 +219,7 @@ fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 7 segments")
 
 pygame.time.set_timer(pygame.USEREVENT, 500)
+pygame.time.set_timer(pygame.USEREVENT +1, 40)
 horloge = pygame.time.Clock()
 
 image_afficheur_s = pygame.image.load('images/7_seg_s.png').convert_alpha(fenetre)
@@ -235,8 +235,8 @@ image_bouton = pygame.image.load('images/bouton.png').convert_alpha(fenetre)
 couleur_fond = GRIS
 
 #Variables
-valeur_memorisee = 0
-num_afficheur = 7
+valeur_memorisee = 7
+num_afficheur = 1
 sortie_memorisee()
 
 
@@ -261,6 +261,9 @@ while True:
         if evenement.type == pygame.USEREVENT:
             sig_horloge = 1
 
+        if evenement.type == pygame.USEREVENT+1:
+            num_afficheur +=1
+
 
     fenetre.fill(couleur_fond)
 
@@ -274,8 +277,13 @@ while True:
 
     if valeur_memorisee >=10:
         valeur_memorisee = 0
-    #dessiner_arduino(np.zeros(8, dtype=int), np.zeros(7, dtype=int),
-      #               np.zeros(6, dtype=int), 0)
-    dessiner_afficheur(np.zeros(7, dtype=int), np.zeros(6, dtype=int))
+
+    if num_afficheur>6:
+        num_afficheur =1
+
+    afficheur_allume = (composant_CD4028(sortie_memorisee()))
+    dessiner_arduino(sortie_memorisee(), sortie_CD4511,
+                    afficheur_allume, sortie_bouton)
+    dessiner_afficheur(sortie_CD4511, afficheur_allume)
     pygame.display.flip()
     horloge.tick(images_par_seconde)
