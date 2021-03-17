@@ -135,10 +135,7 @@ def composant_CD4511(entree):
     decimal = int(decimal)
 
 
-    tdv = np.array([[1, 1, 1, 1, 1, 1, 0], [0, 1, 1, 0, 0, 0, 0], [1, 1, 0, 1, 1, 0, 1],
-                   [1, 1, 1, 1, 0, 0, 1], [0, 1, 1, 0, 0, 1, 1], [1, 0, 1, 1, 0, 1, 1],
-                   [1, 0, 1, 1, 1, 1, 1], [1, 1, 1, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1, 1],
-                   [1, 1, 1, 1, 0, 1, 1]])
+    tdv = np.array([[0,0,1,0,1,1,1], [1,0,0,1,1,1,1],[0,0,0,1,1,1,0],[0,0,1,1,1,0,1],[0,1,1,1,1,1,1],[0,0,0,0,1,0,1],[0,1,1,1,1,0,1],[0,0,0,0,0,0,0]])
 
 
     return tdv[decimal]
@@ -153,6 +150,7 @@ def composant_CD4028(entree):
     decimal = int(decimal)
     afficheur_allume = [0,0,0,0,0,0]
     afficheur_allume[decimal-1]=1
+
 
     return afficheur_allume
 
@@ -183,6 +181,7 @@ def sortie_memorisee():
         temp_afficheur = temp_afficheur//2
         size_array -= 1
 
+
     arr = np.append(arr_bin, arr_num)
 
     return arr
@@ -198,6 +197,40 @@ def connexion_bouton(sortie_bouton):
     else:
         pygame.draw.line(fenetre, NOIR, pin_arduino, pin_bouton, 5)
     return
+
+
+def deplacer_hello(hello):
+    pos_0  = hello[0]
+    pos_1 = hello[1]
+    pos_2 = hello[2]
+    pos_3 = hello[3]
+    pos_4= hello[4]
+    pos_5= hello[5]
+    pos_6= hello[6]
+    pos_7= hello[7]
+    pos_8= hello[8]
+    pos_9= hello[9]
+    pos_10= hello[10]
+    pos_11 = hello[11]
+
+    hello[0] = pos_1
+    hello[1] = pos_2
+    hello[2] = pos_3
+    hello[3] = pos_4
+    hello[4] = pos_5
+    hello[5] = pos_6
+    hello[6] = pos_7
+    hello[7] = pos_8
+    hello[8] = pos_9
+    hello[9] = pos_10
+    hello[10] = pos_11
+    hello[11] = pos_0
+
+    return hello
+
+
+
+
 
 
 ### Paramètre(s)
@@ -225,7 +258,7 @@ pygame.init()
 fenetre = pygame.display.set_mode(dimensions_fenetre)
 pygame.display.set_caption("Programme 7 segments")
 
-pygame.time.set_timer(pygame.USEREVENT, 500)
+pygame.time.set_timer(pygame.USEREVENT, 1000)
 pygame.time.set_timer(pygame.USEREVENT +1, 40)
 horloge = pygame.time.Clock()
 
@@ -247,37 +280,13 @@ num_afficheur = 1
 sortie_memorisee()
 latence_mat = np.array([[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]])
 
-
+hello = np.array([0,1,2,2,3,7,4,3,5,2,6,7])
 # Boucle principale
 
-
+a = 0
 
 while True:
     try:
-        heure_total = []
-        heure = dt.datetime.now().hour
-        minute = dt.datetime.now().minute
-        secondes = dt.datetime.now().second
-
-        heure_str = (f"{heure}{minute}{secondes}")
-        for i in heure_str:
-            heure_total.append(int(i))
-
-
-
-        if heure < 10:
-            heure_total.insert(1,heure_total[0])
-            heure_total[0] = 0
-
-        if minute <10:
-            heure_total.insert(3, heure_total[2])
-            heure_total[2] = 0
-
-        if secondes <10:
-            heure_total.insert(5, heure_total[4])
-            heure_total[4] = 0
-
-
 
 
         sig_horloge = 0
@@ -293,17 +302,21 @@ while True:
                 if mouse_x<pos_centre_bouton[0] + rayon_bouton and mouse_x > pos_centre_bouton[0] - rayon_bouton:
                     if mouse_y < pos_centre_bouton[1] + rayon_bouton and mouse_y > pos_centre_bouton[1] - rayon_bouton:
                         sortie_bouton = 1
+                        deplacer_hello(hello)
 
             if evenement.type == pygame.USEREVENT:
                 sig_horloge = 1
 
-            if evenement.type == pygame.USEREVENT+1:
-                None
+                hello = deplacer_hello(hello)
 
-        for l in heure_total:
-            valeur_memorisee = int(l)
-            latence_mat[num_afficheur - 1] = composant_CD4511(sortie_memorisee())
-            num_afficheur += 1
+            if evenement.type == pygame.USEREVENT+1:
+                 latence_mat[num_afficheur - 1] = composant_CD4511(sortie_memorisee())
+
+                 num_afficheur += 1
+                 if num_afficheur > 6:
+                    num_afficheur = 1
+                 valeur_memorisee = hello[num_afficheur - 1]
+
 
 
         fenetre.fill(couleur_fond)
@@ -313,10 +326,9 @@ while True:
 
 
 
-        if num_afficheur>6:
-            num_afficheur =1
 
         afficheur_allume = (composant_CD4028(sortie_memorisee()))
+
         dessiner_arduino(sortie_memorisee(), sortie_CD4511,
                         afficheur_allume, sortie_bouton)
 
