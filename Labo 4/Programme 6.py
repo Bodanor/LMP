@@ -50,10 +50,10 @@ def generer_signaux(delta_t):
     PERIODE_3 = 0.0015
     PERIODE_4 = 0.0045
 
-    AMPL_1 = 10
-    AMPL_2 = 5
-    AMPL_3 = 3
-    AMPL_4 = 2
+    AMPL_1 = 5
+    AMPL_2 = 2.5
+    AMPL_3 = 12.5
+    AMPL_4 = 100
 
     global signaux_initialises, a1, a2, a3, a4
     if not signaux_initialises:
@@ -177,6 +177,7 @@ pygame.key.set_repeat(10, 10)
 
 acquisition_initialisee = False
 signaux_initialises = False
+
 
 # Dessin
 
