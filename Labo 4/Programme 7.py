@@ -45,18 +45,15 @@ def afficher_grille():
 
 
 def generer_signaux(delta_t):
-    PERIODE_1 = 0.0045
-    PERIODE_2 = 0.003
-    PERIODE_3 = 0.0015
-    PERIODE_4 = 0.0045
+    PERIODE_1 = 1/222
+    PERIODE_2 = 1
+    PERIODE_3 = 1
+    PERIODE_4 = 1
 
-    if compteur %2 ==0:
-        AMPL_1 = 5
-    else:
-        AMPL_1 = 0
-    AMPL_2 = 2.5
-    AMPL_3 = 12.5
-    AMPL_4 = 100
+    AMPL_1 = 5
+    AMPL_2 = 1
+    AMPL_3 = 1
+    AMPL_4 = 1
 
     global signaux_initialises, a1, a2, a3, a4
     if not signaux_initialises:
@@ -76,10 +73,16 @@ def generer_signaux(delta_t):
     a4 = math.fmod(a4 + delta_t * 2 * math.pi / PERIODE_4,
                    2 * math.pi)
 
-    return (AMPL_1 ,
-            AMPL_2 * math.cos(a2),
-            AMPL_3 * math.cos(a3),
-            AMPL_4 * math.cos(a4))
+    if a1 < math.pi:
+        tension = 0
+    else:
+        tension = AMPL_1
+    courant = tension/2
+    puissance = tension*courant
+    return (tension,
+            courant,
+            puissance,
+            100)
 
 
 def acquisition(t):
@@ -180,7 +183,7 @@ pygame.key.set_repeat(10, 10)
 
 acquisition_initialisee = False
 signaux_initialises = False
-compteur = 0
+
 
 # Dessin
 
@@ -203,4 +206,3 @@ while True:
     afficher_grille()
     pygame.display.flip()
     horloge.tick(images_par_seconde)
-    compteur += 1

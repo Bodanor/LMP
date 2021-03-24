@@ -286,55 +286,48 @@ hello = np.array([0,1,2,2,3,7,4,3,5,2,6,7])
 a = 0
 
 while True:
-    try:
 
 
-        sig_horloge = 0
-        sortie_bouton = 0
-        temps_maintenant = pygame.time.get_ticks()
-        for evenement in pygame.event.get():
-            if evenement.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+    sig_horloge = 0
+    sortie_bouton = 0
+    temps_maintenant = pygame.time.get_ticks()
+    for evenement in pygame.event.get():
+        if evenement.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-            if evenement.type == pygame.MOUSEBUTTONUP:
-                mouse_x, mouse_y = pygame.mouse.get_pos()
-                if mouse_x<pos_centre_bouton[0] + rayon_bouton and mouse_x > pos_centre_bouton[0] - rayon_bouton:
-                    if mouse_y < pos_centre_bouton[1] + rayon_bouton and mouse_y > pos_centre_bouton[1] - rayon_bouton:
-                        sortie_bouton = 1
-                        deplacer_hello(hello)
+        if evenement.type == pygame.MOUSEBUTTONUP:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            if mouse_x<pos_centre_bouton[0] + rayon_bouton and mouse_x > pos_centre_bouton[0] - rayon_bouton:
+                if mouse_y < pos_centre_bouton[1] + rayon_bouton and mouse_y > pos_centre_bouton[1] - rayon_bouton:
+                    sortie_bouton = 1
+                    deplacer_hello(hello)
 
-            if evenement.type == pygame.USEREVENT:
-                sig_horloge = 1
+        if evenement.type == pygame.USEREVENT:
+            sig_horloge = 1
 
-                hello = deplacer_hello(hello)
+            hello = deplacer_hello(hello)
 
-            if evenement.type == pygame.USEREVENT+1:
-                 latence_mat[num_afficheur - 1] = composant_CD4511(sortie_memorisee())
+        if evenement.type == pygame.USEREVENT+1:
+             latence_mat[num_afficheur - 1] = composant_CD4511(sortie_memorisee())
 
-                 num_afficheur += 1
-                 if num_afficheur > 6:
-                    num_afficheur = 1
-                 valeur_memorisee = hello[num_afficheur - 1]
-
-
-
-        fenetre.fill(couleur_fond)
-
-        sortie_CD4511 = composant_CD4511(sortie_memorisee())
+             num_afficheur += 1
+             if num_afficheur > 6:
+                num_afficheur = 1
+             valeur_memorisee = hello[num_afficheur - 1]
 
 
 
+    fenetre.fill(couleur_fond)
 
+    sortie_CD4511 = composant_CD4511(sortie_memorisee())
 
-        afficheur_allume = (composant_CD4028(sortie_memorisee()))
+    afficheur_allume = (composant_CD4028(sortie_memorisee()))
 
-        dessiner_arduino(sortie_memorisee(), sortie_CD4511,
-                        afficheur_allume, sortie_bouton)
+    dessiner_arduino(sortie_memorisee(), sortie_CD4511,
+                    afficheur_allume, sortie_bouton)
 
-        dessiner_afficheur(sortie_CD4511, afficheur_allume)
-        pygame.display.flip()
-        horloge.tick(images_par_seconde)
+    dessiner_afficheur(sortie_CD4511, afficheur_allume)
+    pygame.display.flip()
+    horloge.tick(images_par_seconde)
 
-    except IndexError:
-        pass
