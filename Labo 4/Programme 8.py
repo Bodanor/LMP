@@ -45,6 +45,8 @@ def afficher_grille():
 
 
 def generer_signaux(delta_t):
+    global tension_condensateur
+    tension_condensateur = 0
     PERIODE_1 = 1/222
     PERIODE_2 = 1
     PERIODE_3 = 1
@@ -74,12 +76,17 @@ def generer_signaux(delta_t):
                    2 * math.pi)
 
     if a1 < math.pi:
-        tension = 0
+        tension1 = 0
     else:
-        tension = AMPL_1
-    courant = tension/2
-    puissance = tension*courant
-    return (tension,
+        tension1 = AMPL_1
+    courant = tension1 - tension_condensateur/1000
+    puissance = tension_condensateur*courant
+
+
+    tension_condensateur = tension_condensateur + (courant * delta_t)/470
+
+
+    return (tension1,
             courant,
             puissance,
             100)
@@ -167,7 +174,7 @@ seuil_trigger = 5
 seuil_trigger_delta = 0.2
 
 couleur_signaux = [JAUNE, CYAN, MAGENTA, VERT]
-gain_signaux = [20, 20, 20, 20]
+gain_signaux = [20, 20, 20000, 20000]
 
 # Initialisation
 
