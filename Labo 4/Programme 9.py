@@ -75,10 +75,7 @@ def generer_signaux(delta_t):
     a4 = math.fmod(a4 + delta_t * 2 * math.pi / PERIODE_4,
                    2 * math.pi)
 
-    if a1 < math.pi:
-        tension1 = 0
-    else:
-        tension1 = AMPL_1
+    tension1 = AMPL_1*math.cos(a1)
     courant = tension1 - tension_condensateur/1000
     puissance = tension_condensateur*courant
 
