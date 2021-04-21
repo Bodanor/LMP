@@ -43,10 +43,10 @@ def afficher_grille():
 
     return
 
-
+tension_condensateur = 0
 def generer_signaux(delta_t):
     global tension_condensateur
-    tension_condensateur = 0
+
     PERIODE_1 = 1/222
     PERIODE_2 = 1
     PERIODE_3 = 1
@@ -79,17 +79,20 @@ def generer_signaux(delta_t):
         tension1 = 0
     else:
         tension1 = AMPL_1
-    courant = tension1 - tension_condensateur/1000
+    courant = (tension1 - tension_condensateur)/1000
+
+    tension_condensateur = tension_condensateur + (courant * delta_t) / (470*(10**-9))
+
     puissance = tension_condensateur*courant
 
 
-    tension_condensateur = tension_condensateur + (courant * delta_t)/470
+
 
 
     return (tension1,
+            tension_condensateur,
             courant,
-            puissance,
-            100)
+            puissance)
 
 
 def acquisition(t):
