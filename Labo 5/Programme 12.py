@@ -19,7 +19,7 @@ BLEU = (0,0,255)
 GRIS = (100,100,100)
 NOIR = (0,0,0)
 
-
+angle_moteur = math.pi/4
 
 #Fonctions
 
@@ -31,11 +31,15 @@ def AfficherCercle():
     pygame.draw.circle(fenetre, BLEUCLAIR, (400, 300), 125)
     pygame.draw.circle(fenetre, GRIS, (400, 300), 100)
 
-def AfficherPetitCercle(positionX, positionY):
-    pygame.draw.circle(fenetre, NOIR, (positionX, positionY), 20)
+def AfficherPetitCercle():
+    pygame.draw.circle(fenetre, NOIR, (PositionCercle()), 10)
 
-
-
+def PositionCercle():
+    global angle_moteur
+    positionX = 400 + math.cos(-angle_moteur) * 80
+    positionY = 300 + math.sin(-angle_moteur) * 80
+    PositionCercle = (positionX,positionY)
+    return ( PositionCercle)
 
 # Paramètres
 
@@ -53,6 +57,8 @@ couleur_fond = BLEUCLAIR
 fenetre.fill(couleur_fond)
 AfficherAimant()
 AfficherCercle()
+AfficherPetitCercle()
+
 
 
 while True:
