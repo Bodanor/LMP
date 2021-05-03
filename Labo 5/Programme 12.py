@@ -15,11 +15,11 @@ BLEUCLAIR = (127, 191, 255)
 BLEU = (23, 58, 196)
 ROUGE = (255,0,0)
 NOIR = (0,0,0)
-BLEU = (0,0,255)
-GRIS = (100,100,100)
-NOIR = (0,0,0)
 
-angle_moteur = math.pi/4
+GRIS = (100,100,100)
+
+
+pygame.font.init()
 
 #Fonctions
 
@@ -54,18 +54,46 @@ pygame.display.set_caption("Programme 1")
 horloge = pygame.time.Clock()
 couleur_fond = BLEUCLAIR
 
-fenetre.fill(couleur_fond)
-AfficherAimant()
-AfficherCercle()
-AfficherPetitCercle()
 
 
+angle_moteur = 0
+compteur = 0
+courant_moteur = 0
+vitesse_moteur = 0
+temps_precedent = 0
+temps = 0
+
+
+pygame.key.set_repeat(10, 10)
 
 while True:
     for evenement in pygame.event.get():
         if evenement.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                compteur = 5
+
+
+    if compteur == 0:
+        courant_moteur = 0
+    else:
+        courant_moteur = 1
+
+    fenetre.fill(couleur_fond)
+    AfficherAimant()
+    AfficherCercle()
+    AfficherPetitCercle()
+    AfficherTDB(fenetre)
+
+    mettre_a_jour_moteur(temps)
+
+    temps_precedent = temps_maintenant
+
+    if compteur != 0:
+        compteur -= 1
+
 
     pygame.display.flip()
     horloge.tick(images_par_seconde)
