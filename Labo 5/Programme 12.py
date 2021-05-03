@@ -89,9 +89,13 @@ while True:
 
     mettre_a_jour_moteur(temps)
 
+
+
     temps_precedent = temps_maintenant
 
     if compteur != 0:
+
+
         compteur -= 1
 
 
