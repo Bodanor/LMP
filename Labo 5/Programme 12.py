@@ -41,6 +41,35 @@ def PositionCercle():
     PositionCercle = (positionX,positionY)
     return ( PositionCercle)
 
+def AfficherTDB(fenetre):
+    courant_font = pygame.font.SysFont('Comic Sans MS', 18)
+    courantSurface = courant_font.render(f"Courant : {courant_moteur} A", False, NOIR)
+    fenetre.blit(courantSurface, (10,10))
+
+def mettre_a_jour_moteur(t):
+    global angle_moteur, vitesse_angulaire
+    K = 1000
+    R = 0.02
+    L = 0.06
+    B = 0.5
+    J = 1
+    Phi = 2 * K * R * L * courant_moteur * B * math.cos(angle_moteur)
+
+    acceleration_angulaire = (Phi / J) - (vitesse_angulaire*0.2)
+
+
+    vitesse_angulaire += acceleration_angulaire * temps
+    angle = vitesse_angulaire * temps
+
+    angle_moteur += angle
+
+
+
+
+
+
+
+
 # Paramètres
 
 dimensions_fenetre = (800, 600)  # en pixels
@@ -68,8 +97,13 @@ vitesse_angulaire = 0
 pygame.key.set_repeat(10, 10)
 
 while True:
-    for evenement in pygame.event.get():
-        if evenement.type == pygame.QUIT:
+
+    temps_maintenant = pygame.time.get_ticks()/1000
+    temps = temps_maintenant - temps_precedent
+
+    evenement = pygame.event.get()
+    for event in evenement:
+        if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
         if event.type == pygame.KEYDOWN:
