@@ -62,6 +62,7 @@ courant_moteur = 0
 vitesse_moteur = 0
 temps_precedent = 0
 temps = 0
+vitesse_angulaire = 0
 
 
 pygame.key.set_repeat(10, 10)
