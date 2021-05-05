@@ -46,7 +46,7 @@ def AfficherTDB(fenetre):
     courant_font = pygame.font.SysFont('Comic Sans MS', 18)
     courantSurface = courant_font.render(f"Courant : {round(courant_moteur, 2)} A", False, NOIR)
     fenetre.blit(courantSurface, (10, 10))
-    tensionSurface = courant_font.render(f"Tension : {round(tension_moteur, 2)} V ", False, NOIR)
+    tensionSurface = courant_font.render(f"Tension : {round(math.fabs(tension_moteur), 2)} V ", False, NOIR)
     fenetre.blit(tensionSurface, (10, 30))
 
 
@@ -66,6 +66,7 @@ def mettre_a_jour_moteur(t):
 
     if ((angle_moteur < (3 * math.pi / 2)) and (angle_moteur > (math.pi / 2))):
         courant_enroulement = -courant_moteur
+
 
 
 
